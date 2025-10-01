@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reading • Yellow Fever Flashcards</title>
+  <style>
+    :root { --bg:#0f172a; --card:#111827; --card2:#0b1222; --text:#e5e7eb; --accent:#60a5fa; --muted:#9ca3af; --green:#86efac; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;background:linear-gradient(160deg,#0b1020,#0f172a 40%,#0b1020 100%);color:var(--text);min-height:100vh;display:grid;grid-template-rows:auto auto 1fr auto}
+    header,footer{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    header h1{font-size:18px;margin:0;color:var(--accent)}
+    .sub{font-size:12px;color:var(--muted)}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    a.btn{color:var(--text);text-decoration:none;background:#1f2937;border:1px solid rgba(255,255,255,.08);padding:8px 12px;border-radius:10px;font-size:14px}
+    a.btn:hover{border-color:rgba(255,255,255,.18)}
+    .wrap{display:grid;place-items:center;padding:18px}
+    .card{width:min(900px,94vw);min-height:330px;perspective:1200px}
+    .inner{position:relative;width:100%;min-height:330px;transition:transform .6s;transform-style:preserve-3d}
+    .flipped .inner{transform:rotateY(180deg)}
+    .face{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1.2fr;gap:18px;align-items:center;background:radial-gradient(1200px 600px at 20% 0%,var(--card),var(--card2));border:1px solid rgba(255,255,255,.06);border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.04);backface-visibility:hidden;padding: clamp(16px, 2.4vw, 28px)}
+    .media{display:grid;place-items:center}
+    .media img{max-width:100%;max-height:250px;border-radius:12px;border:1px solid rgba(255,255,255,.08)}
+    .content{text-align:center;padding:0 10px}
+    .lead{font-size:13px;color:var(--muted);margin:0 0 6px}
+    h2{font-size:clamp(28px,4.6vw,44px);margin:6px 0 10px}
+    .pron{font-size:clamp(16px,2.8vw,22px);color:var(--green);margin:4px 0 10px}
+    .meaning{font-size:clamp(16px,2.6vw,22px);margin:6px 0}
+    .back{transform:rotateY(180deg)}
+    .controls{margin:14px 0 0;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
+    .pill{font-size:13px;color:var(--muted);background:rgba(255,255,255,.05);padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.06)}
+    .kbd{font-family:ui-monospace,Consolas,monospace;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:2px 6px;border-radius:6px;color:#cbd5e1}
+    footer{justify-content:center;font-size:12px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="toolbar">
+      <a class="btn" href="index.html">← Back to Menu</a>
+      <h1>Reading • Yellow Fever</h1>
+      <span class="sub">Click the card to flip</span>
+    </div>
+    <div class="toolbar">
+      <span class="pill"><span id="counter">Card 1 of 20</span></span>
+    </div>
+  </header>
+
+  <section class="wrap">
+    <div id="card" class="card">
+      <div class="inner">
+        <section class="face front" id="front">
+          <div class="media"><img id="imgFront" alt=""/></div>
+          <div class="content">
+            <p class="lead">Front</p>
+            <h2 id="frontWord">Word</h2>
+          </div>
+        </section>
+        <section class="face back" id="back">
+          <div class="media"><img id="imgBack" alt=""/></div>
+          <div class="content">
+            <p class="lead">Back</p>
+            <div class="pron" id="pron">(pronunciación)</div>
+            <div class="meaning" id="meaningEn">Meaning in English</div>
+            <div class="meaning" id="meaningEs">(Significado en español)</div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="prevBtn" title="Previous (←)">⟵ Prev</button>
+      <button id="flipBtn" title="Flip (Space)">Flip</button>
+      <button id="nextBtn" title="Next (→)">Next ⟶</button>
+      <button id="shuffleBtn" title="Shuffle cards">Shuffle</button>
+      <span class="pill">Keys: <span class="kbd">←</span> <span class="kbd">Space</span> <span class="kbd">→</span></span>
+    </div>
+  </section>
+
+  <footer>Reading flashcards • Add more pages for other texts as needed</footer>
+
+  <script>
+    // Yellow Fever deck
+    const cards = [
+      {front:"Autopsy", pron:"(autópsi)", en:"Examination of a body after death", es:"(Examen de un cuerpo después de la muerte)", img:""},
+      {front:"Immune", pron:"(imún)", en:"Protected from disease", es:"(Protegido de una enfermedad)", img:""},
+      {front:"Urgent", pron:"(úrjent)", en:"Needing quick action", es:"(Necesita acción rápida)", img:""},
+      {front:"Bacteriology", pron:"(bakteriólodi)", en:"Study of bacteria", es:"(Estudio de las bacterias)", img:""},
+      {front:"Evidence", pron:"(évidens)", en:"Facts that support an idea", es:"(Hechos que apoyan una idea)", img:""},
+      {front:"Inference", pron:"(ínferens)", en:"A conclusion based on evidence", es:"(Una conclusión basada en evidencia)", img:""},
+      {front:"Hypothesis", pron:"(jipótesis)", en:"An idea that can be tested", es:"(Una idea que se puede probar)", img:""},
+      {front:"Experiment", pron:"(ekspériment)", en:"A test to learn something", es:"(Una prueba para aprender algo)", img:""},
+      {front:"Sample", pron:"(sámpl)", en:"A small part taken for study", es:"(Una parte pequeña tomada para estudiar)", img:""},
+      {front:"Disease", pron:"(disís)", en:"An illness that affects the body", es:"(Una enfermedad que afecta el cuerpo)", img:""},
+      {front:"Fever", pron:"(fíver)", en:"High body temperature", es:"(Temperatura alta del cuerpo)", img:""},
+      {front:"Mosquito", pron:"(moskíto)", en:"An insect that bites people", es:"(Un insecto que pica a la gente)", img:""},
+      {front:"Patient", pron:"(péishent)", en:"A person receiving medical care", es:"(Una persona que recibe atención médica)", img:""},
+      {front:"Laboratory", pron:"(láboratori)", en:"A place for scientific work", es:"(Un lugar para trabajo científico)", img:""},
+      {front:"Bite", pron:"(bait)", en:"To cut into with teeth", es:"(Morder con los dientes)", img:""},
+      {front:"Cure", pron:"(kiur)", en:"Something that makes a disease go away", es:"(Algo que hace desaparecer una enfermedad)", img:""},
+      {front:"Vector", pron:"(véktor)", en:"An organism that spreads disease", es:"(Un organismo que transmite enfermedades)", img:""},
+      {front:"Symptom", pron:"(símtom)", en:"A sign of illness", es:"(Una señal de enfermedad)", img:""},
+      {front:"Treatment", pron:"(trítment)", en:"Care given to help a sick person", es:"(Atención para ayudar a un enfermo)", img:""},
+      {front:"Contagious", pron:"(kontéiyos)", en:"Able to spread from one person to another", es:"(Capaz de transmitirse de una persona a otra)", img:""}
+    ];
+
+    const PLACEHOLDER = "data:image/svg+xml;charset=utf-8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500"><rect width="100%" height="100%" fill="#111827"/><text x="50%" y="50%" fill="#9ca3af" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="20">No image</text></svg>');
+
+    let order = [...cards.keys()];
+    let idx = 0;
+    let flipped = false;
+
+    const card = document.getElementById('card');
+    const imgFront = document.getElementById('imgFront');
+    const imgBack  = document.getElementById('imgBack');
+    const frontWord = document.getElementById('frontWord');
+    const pron = document.getElementById('pron');
+    const meaningEn = document.getElementById('meaningEn');
+    const meaningEs = document.getElementById('meaningEs');
+    const counter = document.getElementById('counter');
+
+    function render(){
+      const c = cards[order[idx]];
+      frontWord.textContent = c.front;
+      pron.textContent = c.pron || "";
+      meaningEn.textContent = c.en || "";
+      meaningEs.textContent = c.es || "";
+      const img = c.img && c.img.trim() ? c.img.trim() : PLACEHOLDER;
+      imgFront.src = img;
+      imgBack.src = img;
+      counter.textContent = `Card ${idx+1} of ${order.length}`;
+    }
+    function flip(){ flipped=!flipped; card.classList.toggle('flipped', flipped); }
+    function next(){ idx=(idx+1)%order.length; flipped=false; card.classList.remove('flipped'); render(); }
+    function prev(){ idx=(idx-1+order.length)%order.length; flipped=false; card.classList.remove('flipped'); render(); }
+    function shuffle(){ for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]];} idx=0; flipped=false; card.classList.remove('flipped'); render(); }
+
+    document.getElementById('flipBtn').addEventListener('click', flip);
+    document.getElementById('nextBtn').addEventListener('click', next);
+    document.getElementById('prevBtn').addEventListener('click', prev);
+    document.getElementById('shuffleBtn').addEventListener('click', shuffle);
+    card.addEventListener('click', flip);
+    document.addEventListener('keydown', (e)=>{
+      if(e.code==='Space'){e.preventDefault(); flip();}
+      if(e.key==='ArrowRight') next();
+      if(e.key==='ArrowLeft') prev();
+    });
+
+    render();
+  </script>
+</body>
+</html>
