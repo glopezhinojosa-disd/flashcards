@@ -3,251 +3,64 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bilingual Flashcards (EN ↔ ES)</title>
+  <title>Classroom Menu</title>
   <style>
-    :root {
-      --bg: #0f172a;
-      --card: #111827;
-      --card2: #0b1222;
-      --text: #e5e7eb;
-      --accent: #60a5fa;
-      --muted: #9ca3af;
-      --green: #86efac;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
-      background: linear-gradient(160deg, #0b1020, #0f172a 40%, #0b1020 100%);
-      color: var(--text);
-      min-height: 100vh;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-    }
-    header, footer {
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    header h1 {
-      font-size: 18px;
-      margin: 0;
-      letter-spacing: .3px;
-      color: var(--accent);
-      font-weight: 700;
-    }
-    header .sub {
-      font-size: 12px;
-      color: var(--muted);
-      margin-left: 8px;
-    }
-    .wrap {
-      display: grid;
-      place-items: center;
-      padding: 18px;
-    }
-    .card {
-      width: min(820px, 92vw);
-      min-height: 300px;
-      perspective: 1200px;
-    }
-    .inner {
-      position: relative;
-      width: 100%;
-      min-height: 300px;
-      transition: transform .6s;
-      transform-style: preserve-3d;
-    }
-    .flipped .inner { transform: rotateY(180deg); }
-    .face {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      background: radial-gradient(1200px 600px at 20% 0%, var(--card), var(--card2));
-      border: 1px solid rgba(255,255,255,.06);
-      border-radius: 18px;
-      box-shadow: 0 10px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.04);
-      backface-visibility: hidden;
-      padding: clamp(20px, 2.8vw, 36px);
-      text-align: center;
-    }
-    .front h2, .back h2 {
-      font-size: clamp(28px, 4.8vw, 42px);
-      margin: 10px 0 6px;
-      line-height: 1.2;
-      letter-spacing: .25px;
-    }
-    .front p.lead {
-      font-size: clamp(16px, 2.6vw, 18px);
-      color: var(--muted);
-      margin: 0;
-    }
-    .back .pron {
-      font-size: clamp(18px, 3vw, 22px);
-      color: var(--green);
-      margin-bottom: 10px;
-    }
-    .back .meaning {
-      font-size: clamp(18px, 2.6vw, 22px);
-      margin: 6px 0;
-    }
-    .back { transform: rotateY(180deg); }
-    .controls {
-      margin-top: 18px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-    }
-    button {
-      background: #1f2937;
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,.08);
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-size: 15px;
-      cursor: pointer;
-      transition: transform .06s ease, background .2s ease, border-color .2s ease;
-    }
-    button:hover { background: #243041; border-color: rgba(255,255,255,.14); }
-    button:active { transform: translateY(1px); }
-    .pill {
-      font-size: 13px;
-      color: var(--muted);
-      background: rgba(255,255,255,.05);
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.06);
-    }
-    footer {
-      justify-content: center;
-      gap: 10px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .kbd {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
-      padding: 2px 6px;
-      border-radius: 6px;
-      color: #cbd5e1;
-    }
+    :root{--bg:#0f172a;--card:#111827;--text:#e5e7eb;--muted:#9ca3af;--accent:#60a5fa}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      background:linear-gradient(160deg,#0b1020,#0f172a 40%,#0b1020 100%);color:var(--text);min-height:100vh;
+      display:grid;grid-template-rows:auto 1fr auto}
+    header,footer{padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+    header h1{margin:0;font-size:20px;color:var(--accent)}
+    .wrap{display:grid;place-items:center;padding:24px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;width:min(1000px,94vw)}
+    a.card{display:block;text-decoration:none;color:var(--text);background:#111827;border:1px solid rgba(255,255,255,.08);
+      border-radius:14px;padding:18px;transition:transform .06s ease,border-color .2s ease;background:linear-gradient(180deg,#121826,#0e1424)}
+    a.card:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.18)}
+    .title{font-size:18px;margin:0 0 6px}
+    .muted{color:var(--muted);font-size:13px;margin:0}
+    footer{justify-content:center;color:var(--muted);font-size:12px}
+    ul{margin:8px 0 0 18px;padding:0}
+    li{margin:6px 0}
   </style>
 </head>
 <body>
   <header>
-    <h1>Bilingual Flashcards<span class="sub"> EN → ES • Click to flip</span></h1>
-    <div class="pill"><span id="counter">Card 1 of 20</span></div>
+    <h1>Classroom Menu</h1>
+    <div style="color:var(--muted);font-size:12px">Click a subject to open resources</div>
   </header>
 
   <main class="wrap">
-    <div id="card" class="card">
-      <div class="inner">
-        <section class="face front" id="front">
-          <div>
-            <p class="lead">Front</p>
-            <h2 id="frontWord">Word</h2>
-          </div>
-        </section>
-        <section class="face back" id="back">
-          <div>
-            <p class="lead">Back</p>
-            <div class="pron" id="pron">(pronunciación)</div>
-            <div class="meaning" id="meaningEn">Meaning in English</div>
-            <div class="meaning" id="meaningEs">(Significado en español)</div>
-          </div>
-        </section>
-      </div>
-    </div>
-
-    <div class="controls">
-      <button id="prevBtn" title="Previous (←)">⟵ Prev</button>
-      <button id="flipBtn" title="Flip (Space)">Flip</button>
-      <button id="nextBtn" title="Next (→)">Next ⟶</button>
-      <button id="shuffleBtn" title="Shuffle cards">Shuffle</button>
-      <span class="pill">Keys: <span class="kbd">←</span> <span class="kbd">Space</span> <span class="kbd">→</span></span>
+    <div class="grid">
+      <a class="card" href="reading-yellow-fever.html">
+        <h2 class="title">Reading</h2>
+        <p class="muted">Yellow Fever flashcards (vocab + pronunciation)</p>
+        <!-- TODO: Later add a "Reading index" page that links to multiple units.
+             For now we deep-link to the Yellow Fever flashcards page. -->
+      </a>
+      <a class="card" href="#math">
+        <h2 class="title">Math</h2>
+        <p class="muted">Coming soon</p>
+        <!-- TODO: Create math index (math.html) and link it here -->
+      </a>
+      <a class="card" href="#world-cultures">
+        <h2 class="title">World Cultures</h2>
+        <p class="muted">Coming soon</p>
+        <!-- TODO: Create world-cultures.html and link it here -->
+      </a>
+      <a class="card" href="#science">
+        <h2 class="title">Science</h2>
+        <p class="muted">Coming soon</p>
+        <!-- TODO: Create science.html and link it here -->
+      </a>
+      <a class="card" href="#english">
+        <h2 class="title">English</h2>
+        <p class="muted">Coming soon</p>
+        <!-- TODO: Create english.html and link it here -->
+      </a>
     </div>
   </main>
 
-  <footer>
-    <div>Made for classroom practice • Works offline • UTF‑8 accents supported</div>
-  </footer>
-
-  <script>
-    const cards = [
-      {front: "Autopsy", pron: "(autópsi)", en: "Examination of a body after death", es: "(Examen de un cuerpo después de la muerte)"},
-      {front: "Immune", pron: "(imún)", en: "Protected from disease", es: "(Protegido de una enfermedad)"},
-      {front: "Urgent", pron: "(úrjent)", en: "Needing quick action", es: "(Necesita acción rápida)"},
-      {front: "Bacteriology", pron: "(bakteriólolli)", en: "Study of bacteria", es: "(Estudio de las bacterias)"},
-      {front: "Evidence", pron: "(évidens)", en: "Facts that support an idea", es: "(Hechos que apoyan una idea)"},
-      {front: "Inference", pron: "(ínferens)", en: "A conclusion based on evidence", es: "(Una conclusión basada en evidencia)"},
-      {front: "Hypothesis", pron: "(jipótesis)", en: "An idea that can be tested", es: "(Una idea que se puede probar)"},
-      {front: "Experiment", pron: "(ekspériment)", en: "A test to learn something", es: "(Una prueba para aprender algo)"},
-      {front: "Sample", pron: "(sámpl)", en: "A small part taken for study", es: "(Una parte pequeña tomada para estudiar)"},
-      {front: "Disease", pron: "(disís)", en: "An illness that affects the body", es: "(Una enfermedad que afecta el cuerpo)"},
-      {front: "Fever", pron: "(fíver)", en: "High body temperature", es: "(Temperatura alta del cuerpo)"},
-      {front: "Mosquito", pron: "(moskíto)", en: "An insect that bites people", es: "(Un insecto que pica a la gente)"},
-      {front: "Patient", pron: "(péishent)", en: "A person receiving medical care", es: "(Una persona que recibe atención médica)"},
-      {front: "Laboratory", pron: "(láboratori)", en: "A place for scientific work", es: "(Un lugar para trabajo científico)"},
-      {front: "Bite", pron: "(bait)", en: "To cut into with teeth", es: "(Morder con los dientes)"},
-      {front: "Cure", pron: "(kiur)", en: "Something that makes a disease go away", es: "(Algo que hace desaparecer una enfermedad)"},
-      {front: "Vector", pron: "(véktor)", en: "An organism that spreads disease", es: "(Un organismo que transmite enfermedades)"},
-      {front: "Symptom", pron: "(símtom)", en: "A sign of illness", es: "(Una señal de enfermedad)"},
-      {front: "Treatment", pron: "(trítment)", en: "Care given to help a sick person", es: "(Atención para ayudar a un enfermo)"},
-      {front: "Contagious", pron: "(kontéiyos)", en: "Able to spread from one person to another", es: "(Capaz de transmitirse de una persona a otra)"}
-    ];
-
-    let order = [...cards.keys()];
-    let idx = 0;
-    let flipped = false;
-
-    const cardEl = document.getElementById('card');
-    const frontWord = document.getElementById('frontWord');
-    const pron = document.getElementById('pron');
-    const meaningEn = document.getElementById('meaningEn');
-    const meaningEs = document.getElementById('meaningEs');
-    const counter = document.getElementById('counter');
-
-    function render() {
-      const c = cards[order[idx]];
-      frontWord.textContent = c.front;
-      pron.textContent = c.pron;
-      meaningEn.textContent = c.en;
-      meaningEs.textContent = c.es;
-      counter.textContent = `Card ${idx+1} of ${order.length}`;
-    }
-
-    function flip() {
-      flipped = !flipped;
-      cardEl.classList.toggle('flipped', flipped);
-    }
-
-    function next() { idx = (idx + 1) % order.length; flipped = false; cardEl.classList.remove('flipped'); render(); }
-    function prev() { idx = (idx - 1 + order.length) % order.length; flipped = false; cardEl.classList.remove('flipped'); render(); }
-    function shuffle() {
-      for (let i = order.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [order[i], order[j]] = [order[j], order[i]];
-      }
-      idx = 0; flipped = false; cardEl.classList.remove('flipped'); render();
-    }
-
-    document.getElementById('flipBtn').addEventListener('click', flip);
-    document.getElementById('nextBtn').addEventListener('click', next);
-    document.getElementById('prevBtn').addEventListener('click', prev);
-    document.getElementById('shuffleBtn').addEventListener('click', shuffle);
-    cardEl.addEventListener('click', flip);
-    document.addEventListener('keydown', (e) => {
-      if (e.code === 'Space') { e.preventDefault(); flip(); }
-      if (e.key === 'ArrowRight') next();
-      if (e.key === 'ArrowLeft') prev();
-    });
-
-    render();
-  </script>
+  <footer>Simple static menu • Add more pages anytime</footer>
 </body>
 </html>
