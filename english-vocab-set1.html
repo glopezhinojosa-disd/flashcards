@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>English • Academic Vocabulary Set 1</title>
+  <style>
+    :root { --bg:#0f172a; --card:#111827; --card2:#0b1222; --text:#e5e7eb; --accent:#60a5fa; --muted:#9ca3af; --green:#86efac; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;background:linear-gradient(160deg,#0b1020,#0f172a 40%,#0b1020 100%);color:var(--text);min-height:100vh;display:grid;grid-template-rows:auto auto 1fr auto}
+    header,footer{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    header h1{font-size:18px;margin:0;color:var(--accent)}
+    .sub{font-size:12px;color:var(--muted)}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    a.btn{color:var(--text);text-decoration:none;background:#1f2937;border:1px solid rgba(255,255,255,.08);padding:8px 12px;border-radius:10px;font-size:14px}
+    a.btn:hover{border-color:rgba(255,255,255,.18)}
+    .wrap{display:grid;place-items:center;padding:18px}
+    .card{width:min(900px,94vw);min-height:300px;perspective:1200px}
+    .inner{position:relative;width:100%;min-height:300px;transition:transform .6s;transform-style:preserve-3d}
+    .flipped .inner{transform:rotateY(180deg)}
+    .face{position:absolute;inset:0;display:grid;place-items:center;background:radial-gradient(1200px 600px at 20% 0%,var(--card),var(--card2));border:1px solid rgba(255,255,255,.06);border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.04);backface-visibility:hidden;padding: clamp(20px, 2.6vw, 32px);text-align:center}
+    .front h2,.back h2{font-size:clamp(28px,4.6vw,44px);margin:6px 0 10px}
+    .lead{font-size:13px;color:var(--muted);margin:0 0 6px}
+    .pron{font-size:clamp(18px,3vw,22px);color:var(--green);margin:4px 0 10px}
+    .meaning{font-size:clamp(18px,2.6vw,22px);margin:6px 0}
+    .back{transform:rotateY(180deg)}
+    .controls{margin:14px 0 0;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
+    button{background:#1f2937;color:var(--text);border:1px solid rgba(255,255,255,.08);padding:10px 14px;border-radius:12px;font-size:15px;cursor:pointer;transition:transform .06s ease, background .2s, border-color .2s}
+    button:hover{background:#243041;border-color:rgba(255,255,255,.14)}
+    button:active{transform:translateY(1px)}
+    .pill{font-size:13px;color:var(--muted);background:rgba(255,255,255,.05);padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.06)}
+    .kbd{font-family:ui-monospace,Consolas,monospace;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:2px 6px;border-radius:6px;color:#cbd5e1}
+    footer{justify-content:center;font-size:12px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="toolbar">
+      <a class="btn" href="english.html">← English Menu</a>
+      <a class="btn" href="index.html">🏠 Home</a>
+      <h1>English • Vocabulary Set 1</h1>
+      <span class="sub">Click the card to flip</span>
+    </div>
+    <div class="toolbar">
+      <span class="pill"><span id="counter">Card 1 of 40</span></span>
+    </div>
+  </header>
+
+  <section class="wrap">
+    <div id="card" class="card">
+      <div class="inner">
+        <section class="face front" id="front">
+          <div>
+            <p class="lead">Front</p>
+            <h2 id="frontWord">Word</h2>
+          </div>
+        </section>
+        <section class="face back" id="back">
+          <div>
+            <p class="lead">Back</p>
+            <div class="pron" id="pron">(pronunciación)</div>
+            <div class="meaning" id="meaningEs">Significado en español</div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="prevBtn" title="Previous (←)">⟵ Prev</button>
+      <button id="flipBtn" title="Flip (Space)">Flip</button>
+      <button id="nextBtn" title="Next (→)">Next ⟶</button>
+      <button id="shuffleBtn" title="Shuffle cards">Shuffle</button>
+      <span class="pill">Keys: <span class="kbd">←</span> <span class="kbd">Space</span> <span class="kbd">→</span></span>
+    </div>
+  </section>
+
+  <footer>40 high‑frequency words • Pronunciación + significado en español</footer>
+
+  <script>
+    const cards = [
+      {front:"Run",     pron:"(rán)",        es:"correr"},
+      {front:"Eat",     pron:"(ít)",         es:"comer"},
+      {front:"Go",      pron:"(góu)",        es:"ir"},
+      {front:"See",     pron:"(sí)",         es:"ver"},
+      {front:"Speak",   pron:"(spík)",       es:"hablar"},
+      {front:"Read",    pron:"(ríd)",        es:"leer"},
+      {front:"Write",   pron:"(ráit)",       es:"escribir"},
+      {front:"Play",    pron:"(pléi)",       es:"jugar"},
+      {front:"Have",    pron:"(jáv)",        es:"tener"},
+      {front:"Do",      pron:"(dú)",         es:"hacer"},
+
+      {front:"Book",    pron:"(búk)",        es:"libro"},
+      {front:"Table",   pron:"(téibol)",     es:"mesa"},
+      {front:"House",   pron:"(jáus)",       es:"casa"},
+      {front:"School",  pron:"(skúl)",       es:"escuela"},
+      {front:"Friend",  pron:"(frénd)",      es:"amigo / amiga"},
+      {front:"Teacher", pron:"(tícher)",     es:"maestro / maestra"},
+      {front:"Water",   pron:"(uóter)",      es:"agua"},
+      {front:"Food",    pron:"(fúd)",        es:"comida"},
+      {front:"Car",     pron:"(kár)",        es:"carro / coche"},
+      {front:"Dog",     pron:"(dóg)",        es:"perro"},
+
+      {front:"Want",    pron:"(uónt)",       es:"querer"},
+      {front:"Need",    pron:"(níd)",        es:"necesitar"},
+      {front:"Like",    pron:"(láik)",       es:"gustar"},
+      {front:"Make",    pron:"(méik)",       es:"hacer / fabricar"},
+      {front:"Take",    pron:"(téik)",       es:"tomar / llevar"},
+      {front:"Give",    pron:"(guív)",       es:"dar"},
+      {front:"Open",    pron:"(óupen)",      es:"abrir"},
+      {front:"Close",   pron:"(klóus)",      es:"cerrar"},
+      {front:"Work",    pron:"(uérk)",       es:"trabajar"},
+      {front:"Study",   pron:"(stádi)",      es:"estudiar"},
+
+      {front:"Chair",   pron:"(chéer)",      es:"silla"},
+      {front:"Bed",     pron:"(béd)",        es:"cama"},
+      {front:"Pen",     pron:"(pén)",        es:"pluma / bolígrafo"},
+      {front:"Phone",   pron:"(fón)",        es:"teléfono"},
+      {front:"Computer",pron:"(kompiúter)",  es:"computadora"},
+      {front:"City",    pron:"(síti)",       es:"ciudad"},
+      {front:"Street",  pron:"(strít)",      es:"calle"},
+      {front:"Window",  pron:"(uíndou)",     es:"ventana"},
+      {front:"Door",    pron:"(dór)",        es:"puerta"},
+      {front:"Family",  pron:"(fámili)",     es:"familia"}
+    ];
+
+    let order = [...cards.keys()];
+    let idx = 0;
+    let flipped = false;
+
+    const card = document.getElementById('card');
+    const frontWord = document.getElementById('frontWord');
+    const pron = document.getElementById('pron');
+    const meaningEs = document.getElementById('meaningEs');
+    const counter = document.getElementById('counter');
+
+    function render(){
+      const c = cards[order[idx]];
+      frontWord.textContent = c.front;
+      pron.textContent = c.pron || "";
+      meaningEs.textContent = c.es || "";
+      counter.textContent = `Card ${idx+1} of ${order.length}`;
+    }
+    function flip(){ flipped=!flipped; card.classList.toggle('flipped', flipped); }
+    function next(){ idx=(idx+1)%order.length; flipped=false; card.classList.remove('flipped'); render(); }
+    function prev(){ idx=(idx-1+order.length)%order.length; flipped=false; card.classList.remove('flipped'); render(); }
+    function shuffle(){ for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]];} idx=0; flipped=false; card.classList.remove('flipped'); render(); }
+
+    document.getElementById('flipBtn').addEventListener('click', flip);
+    document.getElementById('nextBtn').addEventListener('click', next);
+    document.getElementById('prevBtn').addEventListener('click', prev);
+    document.getElementById('shuffleBtn').addEventListener('click', shuffle);
+    card.addEventListener('click', flip);
+    document.addEventListener('keydown', (e)=>{
+      if(e.code==='Space'){e.preventDefault(); flip();}
+      if(e.key==='ArrowRight') next();
+      if(e.key==='ArrowLeft') prev();
+    });
+
+    render();
+  </script>
+</body>
+</html>
