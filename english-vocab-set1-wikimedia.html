@@ -308,13 +308,16 @@
         if (try3) return try3;
       
         return { url: null, title: null };
-      }
+        const try1 = await searchOnce(query + ' icon');
+      if (try1) return try1;
+      const try2 = await searchOnce(query + ' diagram');
+      if (try2) return try2;
+      const try3 = await searchOnce(query + ' photo');
+      if (try3) return try3;
     
-              return { url, title };
-            } catch (e) {
-              return { url: null, title: null };
-            }
-          }
+      return { url: null, title: null };
+    }
+
 
 
     async function getImageForCard(c){
