@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>English • Vocabulary Set 1 (Wikimedia images)</title>
+  <style>
+    :root { --bg:#0f172a; --card:#111827; --card2:#0b1222; --text:#e5e7eb; --accent:#60a5fa; --muted:#9ca3af; --green:#86efac; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;background:linear-gradient(160deg,#0b1020,#0f172a 40%,#0b1020 100%);color:var(--text);min-height:100vh;display:grid;grid-template-rows:auto auto 1fr auto}
+    header,footer{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    header h1{font-size:18px;margin:0;color:var(--accent)}
+    .sub{font-size:12px;color:var(--muted)}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    a.btn{color:var(--text);text-decoration:none;background:#1f2937;border:1px solid rgba(255,255,255,.08);padding:8px 12px;border-radius:10px;font-size:14px}
+    a.btn:hover{border-color:rgba(255,255,255,.18)}
+    .wrap{display:grid;place-items:center;padding:18px}
+    .card{width:min(980px,96vw);min-height:360px;perspective:1200px}
+    .inner{position:relative;width:100%;min-height:360px;transition:transform .6s;transform-style:preserve-3d}
+    .flipped .inner{transform:rotateY(180deg)}
+    .face{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1.2fr;gap:18px;align-items:center;background:radial-gradient(1200px 600px at 20% 0%,var(--card),var(--card2));border:1px solid rgba(255,255,255,.06);border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.04);backface-visibility:hidden;padding: clamp(16px, 2.4vw, 28px)}
+    .media{display:grid;place-items:center}
+    .media img{max-width:100%;max-height:270px;border-radius:12px;border:1px solid rgba(255,255,255,.08);object-fit:cover}
+    .content{text-align:center;padding:0 10px}
+    .lead{font-size:13px;color:var(--muted);margin:0 0 6px}
+    h2{font-size:clamp(28px,4.6vw,44px);margin:6px 0 10px}
+    .pron{font-size:clamp(18px,3vw,22px);color:var(--green);margin:4px 0 10px}
+    .meaning{font-size:clamp(18px,2.6vw,22px);margin:6px 0}
+    .back{transform:rotateY(180deg)}
+    .controls{margin:14px 0 0;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
+    button{background:#1f2937;color:var(--text);border:1px solid rgba(255,255,255,.08);padding:10px 14px;border-radius:12px;font-size:15px;cursor:pointer;transition:transform .06s ease, background .2s, border-color .2s}
+    button:hover{background:#243041;border-color:rgba(255,255,255,.14)}
+    button:active{transform:translateY(1px)}
+    .pill{font-size:13px;color:var(--muted);background:rgba(255,255,255,.05);padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.06)}
+    .kbd{font-family:ui-monospace,Consolas,monospace;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:2px 6px;border-radius:6px;color:#cbd5e1}
+    footer{justify-content:center;font-size:12px;color:var(--muted)}
+    figcaption{font-size:12px;color:var(--muted);margin-top:6px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="toolbar">
+      <a class="btn" href="english.html" id="backEnglish">← English Menu</a>
+      <a class="btn" href="index.html">🏠 Home</a>
+      <h1>English • Vocabulary Set 1 (Wikimedia images)</h1>
+      <span class="sub">Click the card to flip</span>
+    </div>
+    <div class="toolbar">
+      <span class="pill"><span id="counter">Card 1 of 40</span></span>
+    </div>
+  </header>
+
+  <section class="wrap">
+    <div id="card" class="card">
+      <div class="inner">
+        <section class="face front" id="front">
+          <div class="media">
+            <img id="imgFront" alt=""/>
+          </div>
+          <div class="content">
+            <p class="lead">Front</p>
+            <h2 id="frontWord">Word</h2>
+            <figcaption id="imgCaption" aria-live="polite"></figcaption>
+          </div>
+        </section>
+        <section class="face back" id="back">
+          <div class="media">
+            <img id="imgBack" alt=""/>
+          </div>
+          <div class="content">
+            <p class="lead">Back</p>
+            <div class="pron" id="pron">(pronunciación)</div>
+            <div class="meaning" id="meaningEs">Significado en español</div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="prevBtn" title="Previous (←)">⟵ Prev</button>
+      <button id="flipBtn" title="Flip (Space)">Flip</button>
+      <button id="nextBtn" title="Next (→)">Next ⟶</button>
+      <button id="shuffleBtn" title="Shuffle cards">Shuffle</button>
+      <span class="pill">Keys: <span class="kbd">←</span> <span class="kbd">Space</span> <span class="kbd">→</span></span>
+    </div>
+  </section>
+
+  <footer>Images fetched from Wikimedia Commons via API • Stable thumbnails per keyword</footer>
+
+  <script>
+    const PLACEHOLDER = "data:image/svg+xml;charset=utf-8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500"><rect width="100%" height="100%" fill="#111827"/><text x="50%" y="50%" fill="#9ca3af" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="20">Image loading…</text></svg>');
+
+    // Same 40 words as before. Verbs no image. Nouns use wikimediaQuery keywords.
+    const cards = [
+      {type:"verb", front:"Run",     pron:"(rán)",  es:"correr"},
+      {type:"verb", front:"Eat",     pron:"(ít)",   es:"comer"},
+      {type:"verb", front:"Go",      pron:"(góu)",  es:"ir"},
+      {type:"verb", front:"See",     pron:"(sí)",   es:"ver"},
+      {type:"verb", front:"Speak",   pron:"(spík)", es:"hablar"},
+      {type:"verb", front:"Read",    pron:"(ríd)",  es:"leer"},
+      {type:"verb", front:"Write",   pron:"(ráit)", es:"escribir"},
+      {type:"verb", front:"Play",    pron:"(pléi)", es:"jugar"},
+      {type:"verb", front:"Have",    pron:"(jáv)",  es:"tener"},
+      {type:"verb", front:"Do",      pron:"(dú)",   es:"hacer"},
+
+      {type:"noun", front:"Book",    pron:"(búk)", es:"libro",             wikimediaQuery:"book"},
+      {type:"noun", front:"Table",   pron:"(téibol)", es:"mesa",           wikimediaQuery:"table furniture"},
+      {type:"noun", front:"House",   pron:"(jáus)", es:"casa",             wikimediaQuery:"house home"},
+      {type:"noun", front:"School",  pron:"(skúl)", es:"escuela",          wikimediaQuery:"school classroom"},
+      {type:"noun", front:"Friend",  pron:"(frénd)", es:"amigo/amiga",     wikimediaQuery:"friendship students"},
+      {type:"noun", front:"Teacher", pron:"(tícher)", es:"maestro/a",      wikimediaQuery:"teacher classroom"},
+      {type:"noun", front:"Water",   pron:"(uóter)", es:"agua",            wikimediaQuery:"glass of water"},
+      {type:"noun", front:"Food",    pron:"(fúd)", es:"comida",            wikimediaQuery:"meal food"},
+      {type:"noun", front:"Car",     pron:"(kár)", es:"carro",             wikimediaQuery:"car vehicle"},
+      {type:"noun", front:"Dog",     pron:"(dóg)", es:"perro",             wikimediaQuery:"dog pet"},
+
+      {type:"verb", front:"Want",    pron:"(uónt)", es:"querer"},
+      {type:"verb", front:"Need",    pron:"(níd)",  es:"necesitar"},
+      {type:"verb", front:"Like",    pron:"(láik)", es:"gustar"},
+      {type:"verb", front:"Make",    pron:"(méik)", es:"hacer/fabricar"},
+      {type:"verb", front:"Take",    pron:"(téik)", es:"tomar/ llevar"},
+      {type:"verb", front:"Give",    pron:"(guív)", es:"dar"},
+      {type:"verb", front:"Open",    pron:"(óupen)", es:"abrir"},
+      {type:"verb", front:"Close",   pron:"(klóus)", es:"cerrar"},
+      {type:"verb", front:"Work",    pron:"(uérk)", es:"trabajar"},
+      {type:"verb", front:"Study",   pron:"(stádi)", es:"estudiar"},
+
+      {type:"noun", front:"Chair",   pron:"(chéer)", es:"silla",           wikimediaQuery:"chair furniture"},
+      {type:"noun", front:"Bed",     pron:"(béd)",   es:"cama",            wikimediaQuery:"bed bedroom"},
+      {type:"noun", front:"Pen",     pron:"(pén)",   es:"pluma",           wikimediaQuery:"pen writing instrument"},
+      {type:"noun", front:"Phone",   pron:"(fón)",   es:"teléfono",        wikimediaQuery:"smartphone telephone"},
+      {type:"noun", front:"Computer",pron:"(kompiúter)", es:"computadora", wikimediaQuery:"laptop computer"},
+      {type:"noun", front:"City",    pron:"(síti)",  es:"ciudad",          wikimediaQuery:"city skyline"},
+      {type:"noun", front:"Street",  pron:"(strít)", es:"calle",           wikimediaQuery:"street road"},
+      {type:"noun", front:"Window",  pron:"(uíndou)", es:"ventana",        wikimediaQuery:"window house"},
+      {type:"noun", front:"Door",    pron:"(dór)",   es:"puerta",          wikimediaQuery:"door entrance"},
+      {type:"noun", front:"Family",  pron:"(fámili)", es:"familia",        wikimediaQuery:"family parents children"}
+    ];
+
+    // Cache for Wikimedia results by query
+    const wmCache = new Map();
+
+    async function fetchWikimediaThumb(query){
+      if (!query) return {url:null, title:null};
+      if (wmCache.has(query)) return wmCache.get(query);
+      const api = 'https://commons.wikimedia.org/w/api.php';
+      const params = new URLSearchParams({
+        action: 'query',
+        format: 'json',
+        origin: '*',
+        generator: 'search',
+        gsrlimit: '1',
+        gsrsearch: query,
+        prop: 'imageinfo',
+        iiprop: 'url',
+        iiurlwidth: '600'
+      });
+      try{
+        const res = await fetch(api + '?' + params.toString());
+        if(!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        if (!data.query || !data.query.pages) throw new Error('no results');
+        const pages = Object.values(data.query.pages);
+        const first = pages[0];
+        const title = first.title || '';
+        const info = first.imageinfo && first.imageinfo[0];
+        const url = (info && (info.thumburl || info.url)) || null;
+        const result = {url, title};
+        wmCache.set(query, result);
+        return result;
+      }catch(e){
+        const result = {url:null, title:null};
+        wmCache.set(query, result);
+        return result;
+      }
+    }
+
+    async function getImageForCard(c){
+      // If explicit image URL provided
+      if (c.img) return {url:c.img, title:''};
+      // For nouns use Wikimedia
+      if (c.wikimediaQuery) {
+        const r = await fetchWikimediaThumb(c.wikimediaQuery);
+        if (r.url) return r;
+      }
+      return {url: null, title: ''};
+    }
+
+    let order = [...cards.keys()];
+    let idx = 0, flipped = false;
+
+    const card = document.getElementById('card');
+    const imgFront = document.getElementById('imgFront');
+    const imgBack  = document.getElementById('imgBack');
+    const frontWord = document.getElementById('frontWord');
+    const pron = document.getElementById('pron');
+    const meaningEs = document.getElementById('meaningEs');
+    const counter = document.getElementById('counter');
+    const caption = document.getElementById('imgCaption');
+
+    async function render(){
+      const c = cards[order[idx]];
+      frontWord.textContent = c.front;
+      pron.textContent = c.pron || "";
+      meaningEs.textContent = c.es || "";
+      counter.textContent = `Card ${idx+1} of ${order.length}`;
+      imgFront.src = PLACEHOLDER;
+      imgBack.src  = PLACEHOLDER;
+      caption.textContent = '';
+
+      const {url, title} = await getImageForCard(c);
+      if (url){
+        imgFront.src = url;
+        imgBack.src  = url;
+        caption.textContent = title ? ('Wikimedia: ' + title) : '';
+      }
+    }
+    function flip(){ flipped=!flipped; card.classList.toggle('flipped', flipped); }
+    function next(){ idx=(idx+1)%order.length; flipped=false; card.classList.remove('flipped'); render(); }
+    function prev(){ idx=(idx-1+order.length)%order.length; flipped=false; card.classList.remove('flipped'); render(); }
+    function shuffle(){ for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]];} idx=0; flipped=false; card.classList.remove('flipped'); render(); }
+
+    document.getElementById('flipBtn').addEventListener('click', flip);
+    document.getElementById('nextBtn').addEventListener('click', next);
+    document.getElementById('prevBtn').addEventListener('click', prev);
+    document.getElementById('shuffleBtn').addEventListener('click', shuffle);
+    card.addEventListener('click', flip);
+    document.addEventListener('keydown', (e)=>{ if(e.code==='Space'){e.preventDefault(); flip();} if(e.key==='ArrowRight') next(); if(e.key==='ArrowLeft') prev(); });
+
+    // Smart back button fallback
+    fetch('english.html', {method:'HEAD'}).then(r=>{ if(!r.ok) document.getElementById('backEnglish').href='index.html'; }).catch(()=>{ document.getElementById('backEnglish').href='index.html'; });
+
+    render();
+  </script>
+</body>
+</html>
