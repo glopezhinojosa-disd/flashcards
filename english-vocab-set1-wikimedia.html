@@ -244,42 +244,71 @@
     const wmCache = new Map();
 
     async function fetchWikimediaThumb(query){
-      // Step 1: find a File page (namespace 6) that matches the query
-      const API = 'https://commons.wikimedia.org/w/api.php';
-      const searchParams = new URLSearchParams({
-        action: 'query',
-        format: 'json',
-        origin: '*',
-        list: 'search',
-        srsearch: query,
-        srnamespace: '6',
-        srlimit: '1'
-      });
-    
-      try {
-        const r = await fetch(API + '?' + searchParams.toString());
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        const data = await r.json();
-        const hit = data?.query?.search?.[0];
-        if (!hit) return { url: null, title: null };
-    
-        // Step 2: get a thumbnail URL for that File page
-        const title = hit.title;
-        const thumbParams = new URLSearchParams({
-          action: 'query',
-          format: 'json',
-          origin: '*',
-          titles: title,
-          prop: 'imageinfo',
-          iiprop: 'url',
-          iiurlwidth: '700'
-        });
-        const r2 = await fetch(API + '?' + thumbParams.toString());
-        if (!r2.ok) throw new Error('HTTP ' + r2.status);
-        const data2 = await r2.json();
-        const page = Object.values(data2.query.pages)[0];
-        const info = page?.imageinfo?.[0];
-        const url = info?.thumburl || info?.url || null;
+  const API = 'https://commons.wikimedia.org/w/api.php';
+  
+  // Words we don’t want in titles/categories
+  const BAD = [
+    'adult','nsfw','nude','nudity','sex','sexual','erotic','porn','fetish','kissing',
+    'violence','blood','gore','weapon','gun','knife','alcohol','drugs','smoking'
+  ];
+  const GOOD_HINTS = ['icon','pictogram','clip art','svg','diagram','illustration'];
+
+  const isBad = (s='') => BAD.some(w => s.toLowerCase().includes(w));
+  const isGood = (s='') => GOOD_HINTS.some(w => s.toLowerCase().includes(w));
+
+  async function searchOnce(q){
+    // Step 1: search for File: pages
+    const params1 = new URLSearchParams({
+      action:'query', format:'json', origin:'*',
+      list:'search', srsearch:q, srnamespace:'6', srlimit:'5'
+    });
+    const r1 = await fetch(API + '?' + params1.toString());
+    if (!r1.ok) return null;
+    const data1 = await r1.json();
+    const hits = data1?.query?.search || [];
+    if (!hits.length) return null;
+
+    const titles = hits.map(h => h.title).join('|');
+    // Step 2: fetch imageinfo + categories
+    const params2 = new URLSearchParams({
+      action:'query', format:'json', origin:'*',
+      titles, prop:'imageinfo|categories',
+      iiprop:'url', iiurlwidth:'700', cllimit:'50'
+    });
+    const r2 = await fetch(API + '?' + params2.toString());
+    if (!r2.ok) return null;
+    const data2 = await r2.json();
+    const pages = Object.values(data2.query.pages || {});
+
+    // Filter out unsafe
+    const candidates = pages.filter(p => {
+      const title = (p.title || '');
+      if (isBad(title)) return false;
+      const cats = (p.categories || []).map(c => c.title || '');
+      if (cats.some(isBad)) return false;
+      return p.imageinfo && p.imageinfo[0];
+    });
+
+    if (!candidates.length) return null;
+
+    // Prefer “safe” hints like icon, diagram, etc.
+    let best = candidates.find(p => isGood(p.title) || (p.categories||[]).some(c => isGood(c.title)));
+    if (!best) best = candidates[0];
+
+    const info = best.imageinfo[0];
+    return { url: info.thumburl || info.url || null, title: best.title || '' };
+  }
+
+  // Try safer searches first
+  const try1 = await searchOnce(query + ' icon');
+  if (try1) return try1;
+  const try2 = await searchOnce(query + ' diagram');
+  if (try2) return try2;
+  const try3 = await searchOnce(query + ' photo');
+  if (try3) return try3;
+
+  return { url: null, title: null };
+}
     
         return { url, title };
       } catch (e) {
