@@ -46,7 +46,7 @@
       <span class="sub">Click the card to flip</span>
     </div>
     <div class="toolbar">
-      <span class="pill"><span id="counter">Card 1 of 40</span></span>
+      <span class="pill"><span id="counter">Card 1 of 90</span></span>
     </div>
   </header>
 
@@ -90,8 +90,9 @@
   <script>
     const PLACEHOLDER = "data:image/svg+xml;charset=utf-8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500"><rect width="100%" height="100%" fill="#111827"/><text x="50%" y="50%" fill="#9ca3af" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="20">Image loading…</text></svg>');
 
-    // Same 40 words as before. Verbs no image. Nouns use wikimediaQuery keywords.
+    // Verbs have no images; nouns use wikimediaQuery; phrases have no images.
     const cards = [
+      /* ---------- ORIGINAL 40 ---------- */
       {type:"verb", front:"Run",     pron:"(rán)",  es:"correr"},
       {type:"verb", front:"Eat",     pron:"(ít)",   es:"comer"},
       {type:"verb", front:"Go",      pron:"(góu)",  es:"ir"},
@@ -134,7 +135,63 @@
       {type:"noun", front:"Street",  pron:"(strít)", es:"calle",           wikimediaQuery:"street road"},
       {type:"noun", front:"Window",  pron:"(uíndou)", es:"ventana",        wikimediaQuery:"window house"},
       {type:"noun", front:"Door",    pron:"(dór)",   es:"puerta",          wikimediaQuery:"door entrance"},
-      {type:"noun", front:"Family",  pron:"(fámili)", es:"familia",        wikimediaQuery:"family parents children"}
+      {type:"noun", front:"Family",  pron:"(fámili)", es:"familia",        wikimediaQuery:"family parents children"},
+
+      /* ---------- +20 ADVANCED VERBS ---------- */
+      {type:"verb", front:"Analyze",     pron:"(ánalaiz)",  es:"analizar"},
+      {type:"verb", front:"Compare",     pron:"(kompér)",   es:"comparar"},
+      {type:"verb", front:"Conclude",    pron:"(konklúd)",  es:"concluir"},
+      {type:"verb", front:"Demonstrate", pron:"(démons-treít)", es:"demostrar"},
+      {type:"verb", front:"Determine",   pron:"(ditérmin)", es:"determinar"},
+      {type:"verb", front:"Evaluate",    pron:"(iválueit)", es:"evaluar"},
+      {type:"verb", front:"Investigate", pron:"(invéstigueit)", es:"investigar"},
+      {type:"verb", front:"Justify",     pron:"(yústifai)", es:"justificar"},
+      {type:"verb", front:"Predict",     pron:"(pridíkt)",  es:"predecir"},
+      {type:"verb", front:"Summarize",   pron:"(sómaráiz)", es:"resumir"},
+      {type:"verb", front:"Interpret",   pron:"(intérpret)", es:"interpretar"},
+      {type:"verb", front:"Construct",   pron:"(konstrókt)", es:"construir"},
+      {type:"verb", front:"Categorize",  pron:"(cátigoráiz)", es:"categorizar"},
+      {type:"verb", front:"Infer",       pron:"(infér)",    es:"inferir"},
+      {type:"verb", front:"Synthesize",  pron:"(síntesaiz)", es:"sintetizar"},
+      {type:"verb", front:"Collaborate", pron:"(kolábor-eit)", es:"colaborar"},
+      {type:"verb", front:"Reflect",     pron:"(riflékt)",  es:"reflexionar"},
+      {type:"verb", front:"Revise",      pron:"(riváiz)",   es:"revisar / corregir"},
+      {type:"verb", front:"Identify",    pron:"(aidéntifai)", es:"identificar"},
+      {type:"verb", front:"Organize",    pron:"(órganáiz)", es:"organizar"},
+
+      /* ---------- +20 ACADEMIC/SCIENCE NOUNS (with images) ---------- */
+      {type:"noun", front:"Evidence",    pron:"(évidens)", es:"evidencia",          wikimediaQuery:"evidence proof"},
+      {type:"noun", front:"Hypothesis",  pron:"(jaipóthesis)", es:"hipótesis",      wikimediaQuery:"hypothesis science"},
+      {type:"noun", front:"Experiment",  pron:"(ekspériment)", es:"experimento",    wikimediaQuery:"science experiment"},
+      {type:"noun", front:"Sample",      pron:"(sámpl)",   es:"muestra",            wikimediaQuery:"sample laboratory"},
+      {type:"noun", front:"Disease",     pron:"(disíz)",   es:"enfermedad",         wikimediaQuery:"disease"},
+      {type:"noun", front:"Fever",       pron:"(fíver)",   es:"fiebre",             wikimediaQuery:"fever thermometer"},
+      {type:"noun", front:"Microscope",  pron:"(máikroskoup)", es:"microscopio",    wikimediaQuery:"microscope"},
+      {type:"noun", front:"Laboratory",  pron:"(labóratori)", es:"laboratorio",     wikimediaQuery:"laboratory"},
+      {type:"noun", front:"Vaccine",     pron:"(vaksín)",  es:"vacuna",             wikimediaQuery:"vaccine vial"},
+      {type:"noun", front:"Symptom",     pron:"(símtom)",  es:"síntoma",            wikimediaQuery:"symptom patient"},
+      {type:"noun", front:"Conclusion",  pron:"(konklúshon)", es:"conclusión",      wikimediaQuery:"conclusion decision"},
+      {type:"noun", front:"Data",        pron:"(déita)",   es:"datos",              wikimediaQuery:"data spreadsheet"},
+      {type:"noun", front:"Graph",       pron:"(gráf)",    es:"gráfica",            wikimediaQuery:"bar graph chart"},
+      {type:"noun", front:"Result",      pron:"(risólt)",  es:"resultado",          wikimediaQuery:"result outcome"},
+      {type:"noun", front:"Scientist",   pron:"(sáientist)", es:"científico/a",     wikimediaQuery:"scientist"},
+      {type:"noun", front:"Environment", pron:"(enváironment)", es:"medio ambiente", wikimediaQuery:"environment nature"},
+      {type:"noun", front:"Ecosystem",   pron:"(íkosistem)", es:"ecosistema",       wikimediaQuery:"ecosystem"},
+      {type:"noun", front:"Community",   pron:"(komyúniti)", es:"comunidad",        wikimediaQuery:"community people"},
+      {type:"noun", front:"Government",  pron:"(góverment)", es:"gobierno",         wikimediaQuery:"government building"},
+      {type:"noun", front:"Economy",     pron:"(ekónomi)",  es:"economía",          wikimediaQuery:"economy finance"},
+
+      /* ---------- +10 ACADEMIC PHRASES ---------- */
+      {type:"phrase", front:"According to the text", pron:"(acórding tu de tékst)", es:"Según el texto"},
+      {type:"phrase", front:"Based on the passage",  pron:"(beist on de pásich)",  es:"Basado en el pasaje"},
+      {type:"phrase", front:"As a result",           pron:"(ás a risólt)",         es:"Como resultado"},
+      {type:"phrase", front:"On the other hand",     pron:"(on di óder jand)",     es:"Por otro lado"},
+      {type:"phrase", front:"In contrast to",        pron:"(in kóntrast tu)",      es:"En contraste con"},
+      {type:"phrase", front:"For instance",          pron:"(for ínstans)",         es:"Por ejemplo"},
+      {type:"phrase", front:"Draw a conclusion",     pron:"(dró a konklúshon)",    es:"Sacar una conclusión"},
+      {type:"phrase", front:"Support your answer",   pron:"(sopórt yór ánswer)",   es:"Justifica tu respuesta"},
+      {type:"phrase", front:"Cause and effect",      pron:"(kóz and ifékt)",       es:"Causa y efecto"},
+      {type:"phrase", front:"Main idea",             pron:"(méin aidía)",          es:"Idea principal"}
     ];
 
     // Cache for Wikimedia results by query
@@ -176,9 +233,7 @@
     }
 
     async function getImageForCard(c){
-      // If explicit image URL provided
       if (c.img) return {url:c.img, title:''};
-      // For nouns use Wikimedia
       if (c.wikimediaQuery) {
         const r = await fetchWikimediaThumb(c.wikimediaQuery);
         if (r.url) return r;
