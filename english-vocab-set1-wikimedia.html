@@ -47,7 +47,7 @@
       <span class="sub">Click the card to flip</span>
     </div>
     <div class="toolbar">
-      <span class="pill"><span id="counter">Card 1 of 90</span></span>
+      <span class="pill"><span id="counter">Card 1 of 130</span></span>
     </div>
   </header>
 
@@ -93,6 +93,51 @@
 
     // 90 cards total (your expanded list from before)
     const cards = [
+      /* ---------- +40 CONCRETE, NOT-TOO-EASY WORDS ---------- */
+      /* Verbs (20) – no images, just text side */
+      {type:"verb", front:"Yell",    pron:"(yel)",        es:"gritar"},
+      {type:"verb", front:"Gag",     pron:"(gag)",        es:"dar arcadas / asquearse"},
+      {type:"verb", front:"Gallop",  pron:"(gálop)",      es:"galopar"},
+      {type:"verb", front:"Slide",   pron:"(esláid)",     es:"deslizar(se)"},
+      {type:"verb", front:"Stumble", pron:"(stóm-bol)",   es:"tropezar"},
+      {type:"verb", front:"Whisper", pron:"(wísper)",     es:"susurrar"},
+      {type:"verb", front:"Shove",   pron:"(shov)",       es:"empujar bruscamente"},
+      {type:"verb", front:"Scrub",   pron:"(escrób)",     es:"restregar / tallar"},
+      {type:"verb", front:"Stir",    pron:"(stér)",       es:"revolver (comida)"},
+      {type:"verb", front:"Peel",    pron:"(píl)",        es:"pelar"},
+      {type:"verb", front:"Fetch",   pron:"(fech)",       es:"ir por / traer"},
+      {type:"verb", front:"Mend",    pron:"(mend)",       es:"remendar / arreglar"},
+      {type:"verb", front:"Stack",   pron:"(sták)",       es:"apilar"},
+      {type:"verb", front:"Sweep",   pron:"(suíp)",       es:"barrer"},
+      {type:"verb", front:"Kneel",   pron:"(níl)",        es:"arrodillarse"},
+      {type:"verb", front:"Stretch", pron:"(estréch)",    es:"estirarse"},
+      {type:"verb", front:"Crawl",   pron:"(król)",       es:"gatear / arrastrarse"},
+      {type:"verb", front:"Blink",   pron:"(blínk)",      es:"parpadear"},
+      {type:"verb", front:"Shrug",   pron:"(shrog)",      es:"encogerse de hombros"},
+      {type:"verb", front:"Sip",     pron:"(sip)",        es:"beber a sorbos"},
+      
+      /* Nouns (20) – with Wikimedia image keywords */
+      {type:"noun", front:"Building", pron:"(bílding)",  es:"edificio",    wikimediaQuery:"building city"},
+      {type:"noun", front:"Church",   pron:"(chérch)",   es:"iglesia",     wikimediaQuery:"church building"},
+      {type:"noun", front:"Aunt",     pron:"(ant)",      es:"tía",         wikimediaQuery:"aunt family woman"},
+      {type:"noun", front:"Uncle",    pron:"(óncol)",    es:"tío",         wikimediaQuery:"uncle family man"},
+      {type:"noun", front:"Ladder",   pron:"(lád-er)",   es:"escalera",    wikimediaQuery:"ladder tool"},
+      {type:"noun", front:"Shovel",   pron:"(shóvol)",   es:"pala",        wikimediaQuery:"shovel tool"},
+      {type:"noun", front:"Bucket",   pron:"(bóket)",    es:"cubeta/balde",wikimediaQuery:"bucket pail"},
+      {type:"noun", front:"Bench",    pron:"(bench)",    es:"banca/banco", wikimediaQuery:"bench park"},
+      {type:"noun", front:"Sidewalk", pron:"(sáid-uok)", es:"banqueta/acera", wikimediaQuery:"sidewalk pavement"},
+      {type:"noun", front:"Alley",    pron:"(áli)",      es:"callejón",    wikimediaQuery:"alley street"},
+      {type:"noun", front:"Barn",     pron:"(barn)",     es:"granero",     wikimediaQuery:"barn farm"},
+      {type:"noun", front:"Bridge",   pron:"(bríy)",     es:"puente",      wikimediaQuery:"bridge river"},
+      {type:"noun", front:"Chimney",  pron:"(chím-ni)",  es:"chimenea",    wikimediaQuery:"chimney house"},
+      {type:"noun", front:"Pillow",   pron:"(pílo)",     es:"almohada",    wikimediaQuery:"pillow bed"},
+      {type:"noun", front:"Blanket",  pron:"(blánket)",  es:"cobija/manta",wikimediaQuery:"blanket bed"},
+      {type:"noun", front:"Suitcase", pron:"(sút-keis)", es:"maleta",      wikimediaQuery:"suitcase luggage"},
+      {type:"noun", front:"Mailbox",  pron:"(méil-boks)",es:"buzón",       wikimediaQuery:"mailbox"},
+      {type:"noun", front:"Faucet",   pron:"(fóset)",    es:"grifo/llave", wikimediaQuery:"faucet tap"},
+      {type:"noun", front:"Helmet",   pron:"(hélmet)",   es:"casco",       wikimediaQuery:"helmet safety"},
+      {type:"noun", front:"Leash",    pron:"(lísh)",     es:"correa (perro)", wikimediaQuery:"dog leash"}
+
       /* original 40 ... (unchanged) */
       {type:"verb", front:"Run",     pron:"(rán)",  es:"correr"},
       {type:"verb", front:"Eat",     pron:"(ít)",   es:"comer"},
