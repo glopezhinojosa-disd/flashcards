@@ -249,7 +249,7 @@ async function fetchWikimediaThumb(query){
     'adult','nsfw','nude','nudity','sex','sexual','erotic','porn','fetish','kissing',
     'violence','blood','gore','weapon','gun','knife','alcohol','drugs','smoking'
   ];
-  const GOOD_HINTS = ['icon','pictogram','clip art','svg','diagram','illustration'];
+  const GOOD_HINTS = ['icon','pictogram','clip art','clipart','svg','diagram','illustration'];
   const isBad = (s='') => BAD.some(w => s.toLowerCase().includes(w));
   const isGood = (s='') => GOOD_HINTS.some(w => s.toLowerCase().includes(w));
 
