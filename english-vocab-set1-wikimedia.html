@@ -289,12 +289,13 @@
 
 
     async function getImageForCard(c){
-      if (c.img) return {url:c.img, title:''};
-      if (c.wikimediaQuery) {
-        const r = await fetchWikimediaThumb(c.wikimediaQuery);
-        if (r.url) return r;
-      }
-      return {url: null, title: ''};
+      // Prefer explicit query, otherwise try the word itself (except generic phrases)
+      const query = c.wikimediaQuery || (c.type !== "phrase" ? (c.front + " photo") : null);
+      if (!query) return { url: null, title: "" };
+    
+      const r = await fetchWikimediaThumb(query);
+      if (r.url) return r;
+      return { url: null, title: "" };
     }
 
     let order = [...cards.keys()];
