@@ -155,8 +155,16 @@
       if(e.key==='ArrowRight') next();
       if(e.key==='ArrowLeft') prev();
     });
-
     render();
   </script>
+  <a class="btn" href="english.html" id="backEnglish">← English Menu</a>
+<script>
+  // If english.html doesn't exist, fall back to Home
+  fetch('english.html', {method: 'HEAD'}).then(r => {
+    if (!r.ok) document.getElementById('backEnglish').href = 'index.html';
+  }).catch(() => {
+    document.getElementById('backEnglish').href = 'index.html';
+  });
+</script>
 </body>
 </html>
