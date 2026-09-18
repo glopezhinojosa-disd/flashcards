@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Classroom Menu</title>
+  <style>
+    :root{--bg:#0f172a;--card:#111827;--text:#e5e7eb;--muted:#9ca3af;--accent:#60a5fa}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      background:linear-gradient(160deg,#0b1020,#0f172a 40%,#0b1020 100%);color:var(--text);min-height:100vh;
+      display:grid;grid-template-rows:auto 1fr auto}
+    header,footer{padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+    header h1{margin:0;font-size:20px;color:var(--accent)}
+    .wrap{display:grid;place-items:center;padding:24px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;width:min(1000px,94vw)}
+    a.card{display:block;text-decoration:none;color:var(--text);background:#111827;border:1px solid rgba(255,255,255,.08);
+      border-radius:14px;padding:18px;transition:transform .06s ease,border-color .2s ease;background:linear-gradient(180deg,#121826,#0e1424)}
+    a.card:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.18)}
+    .title{font-size:18px;margin:0 0 6px}
+    .muted{color:var(--muted);font-size:13px;margin:0}
+    footer{justify-content:center;color:var(--muted);font-size:12px}
+    ul{margin:8px 0 0 18px;padding:0}
+    li{margin:6px 0}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Classroom Menu</h1>
+    <div style="color:var(--muted);font-size:12px">Click a subject to open resources</div>
+  </header>
+
+  <main class="wrap">
+    <div class="grid">
+      <a class="card" href="reading-yellow-fever.html">
+        <h2 class="title">Reading</h2>
+        <p class="muted">Yellow Fever flashcards (vocab + pronunciation)</p>
+      </a>
+
+      <a class="card" href="word-match.html">
+        <h2 class="title">Memory Game</h2>
+        <p class="muted">Word Match • pictures + words for newcomers</p>
+      </a>
+
+      <a class="card" href="verb-tenses.html">
+        <h2 class="title">Verb Tenses</h2>
+        <p class="muted">Verb Match • present ↔ past (regular + irregular)</p>
+      </a>
+
+      <a class="card" href="#math">
+        <h2 class="title">Math</h2>
+        <p class="muted">Coming soon</p>
+      </a>
+
+      <a class="card" href="#world-cultures">
+        <h2 class="title">World Cultures</h2>
+        <p class="muted">Coming soon</p>
+      </a>
+
+      <!-- English goes straight to the WITH-IMAGES deck -->
+      <a class="card" href="english-vocab-set1-wikimedia.html">
+        <h2 class="title">English</h2>
+        <p class="muted">Academic Vocabulary • Set 1 (with images)</p>
+      </a>
+
+      <a class="card" href="#science">
+        <h2 class="title">Science</h2>
+        <p class="muted">Coming soon</p>
+      </a>
+      <a class="card" href="english-vocab-set2-eb.html">
+        <h2 class="title">English</h2>
+        <p class="muted">Academic Vocabulary • Set 2 (EB – tougher, concrete)</p>
+      </a>
+    </div>
+  </main>
+
+  <footer>Simple static menu • Add more pages anytime</footer>
+</body>
+</html>
