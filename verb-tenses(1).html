@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verb Match</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --board:#123b4a;
+    --board-2:#0d2e3a;
+    --panel:#1c4d5c;
+    --ink:#eaf6f4;
+    --ink-soft:#a9cdcf;
+    --cardback:#f4a259;
+    --cardback-2:#e8894a;
+    --face:#fff9f0;
+    --word-ink:#123b4a;
+    --present:#0b7d8a;
+    --past:#b26a00;
+    --matched:#57a773;
+    --matched-glow:rgba(87,167,115,.55);
+    --accent:#ffd166;
+    --shadow:rgba(4,20,26,.35);
+    --font-display:"Fredoka",system-ui,sans-serif;
+    --font-ui:"Nunito",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{
+    font-family:var(--font-ui);
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #1a5a6b 0%, transparent 60%),
+      linear-gradient(160deg,var(--board) 0%,var(--board-2) 100%);
+    color:var(--ink);
+    min-height:100%;
+    display:flex;
+    flex-direction:column;
+    padding:clamp(12px,2.5vw,28px);
+  }
+  header{
+    display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;
+    max-width:1000px;width:100%;margin:0 auto 6px;
+  }
+  h1{
+    font-family:var(--font-display);font-weight:700;
+    font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:.5px;margin:0;
+    display:flex;align-items:center;gap:.5rem;line-height:1;
+  }
+  h1 .dot{color:var(--accent);}
+  .controls{display:flex;flex-wrap:wrap;gap:10px;margin-left:auto;align-items:center;}
+  .field{display:flex;flex-direction:column;gap:3px;}
+  .field label{font-size:.72rem;font-weight:700;color:var(--ink-soft);padding-left:4px;}
+  select,.btn{
+    font-family:var(--font-ui);font-weight:700;font-size:.95rem;color:var(--word-ink);
+    background:var(--face);border:none;border-radius:14px;padding:10px 14px;cursor:pointer;
+    box-shadow:0 3px 0 rgba(4,20,26,.3);
+  }
+  select{padding-right:32px;}
+  .btn{background:var(--accent);}
+  .btn:active,select:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(4,20,26,.3);}
+  .btn.sound{background:var(--panel);color:var(--ink);box-shadow:0 3px 0 rgba(4,20,26,.4);min-width:48px;}
+  .btn.sound.off{opacity:.6;}
+  .btn:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px;}
+
+  .scorebar{
+    display:flex;gap:22px;max-width:1000px;width:100%;margin:8px auto 14px;
+    font-weight:800;color:var(--ink-soft);font-size:.95rem;align-items:center;flex-wrap:wrap;
+  }
+  .scorebar b{color:var(--ink);font-family:var(--font-display);font-size:1.15rem;}
+  .legend{margin-left:auto;display:flex;gap:14px;font-size:.8rem;font-weight:800;}
+  .legend .p{color:#4fd0dd;}
+  .legend .q{color:#ffc36b;}
+
+  .board-wrap{flex:1;display:flex;align-items:flex-start;justify-content:center;}
+  .grid{display:grid;gap:clamp(10px,1.8vw,20px);width:100%;max-width:1080px;margin:0 auto;}
+
+  .card{
+    position:relative;aspect-ratio:3/4;border:none;background:transparent;padding:0;
+    cursor:pointer;perspective:900px;font-family:var(--font-display);
+  }
+  .card:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:16px;}
+  .inner{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.2,.8,.25,1);border-radius:16px;}
+  .card.up .inner,.card.matched .inner{transform:rotateY(180deg);}
+  .face{
+    position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    box-shadow:0 5px 0 var(--shadow);overflow:hidden;
+  }
+  .back{background:linear-gradient(150deg,var(--cardback),var(--cardback-2));color:#fff;}
+  .back::after{content:"?";font-size:clamp(1.8rem,6vw,3rem);font-weight:700;opacity:.9;text-shadow:0 2px 0 rgba(0,0,0,.15);}
+  .front{
+    transform:rotateY(180deg);background:var(--face);flex-direction:column;gap:.15em;padding:8px;
+    border-top:6px solid var(--present);
+  }
+  .front.past{border-top-color:var(--past);}
+  .tag{font-weight:700;font-size:clamp(.68rem,2.2vw,.95rem);letter-spacing:.5px;text-transform:uppercase;color:var(--present);}
+  .front.past .tag{color:var(--past);}
+  .word{color:var(--word-ink);font-weight:600;font-size:clamp(1.2rem,4.2vw,2.3rem);line-height:1.05;word-break:break-word;}
+  .pair,.kind{opacity:0;height:0;overflow:hidden;transition:opacity .3s;}
+  .card.matched .pair{opacity:1;height:auto;color:var(--matched);font-weight:600;font-size:clamp(.9rem,3vw,1.35rem);margin-top:.15em;}
+  .card.matched .kind{opacity:1;height:auto;color:#8a6d3b;font-weight:800;font-size:clamp(.55rem,1.9vw,.72rem);text-transform:uppercase;letter-spacing:.5px;}
+  .card.matched .word{opacity:.55;font-size:clamp(.9rem,3vw,1.4rem);}
+
+  .card.matched .front{box-shadow:0 0 0 3px var(--matched),0 0 22px var(--matched-glow),0 5px 0 var(--shadow);}
+  .card.matched{cursor:pointer;animation:pop .4s ease;}
+  @keyframes pop{0%{transform:scale(1);}45%{transform:scale(1.07);}100%{transform:scale(1);}}
+  .card.speaking .front{box-shadow:0 0 0 3px var(--accent),0 0 22px rgba(255,209,102,.6),0 5px 0 var(--shadow);}
+
+  .win{
+    max-width:1000px;width:100%;margin:0 auto 14px;background:var(--panel);border-radius:18px;
+    padding:16px 20px;display:none;align-items:center;gap:14px;box-shadow:0 5px 0 rgba(4,20,26,.4);animation:pop .4s ease;
+  }
+  .win.show{display:flex;}
+  .win .emoji{font-size:2.2rem;}
+  .win .txt{font-family:var(--font-display);font-size:1.3rem;font-weight:600;}
+  .win .txt small{display:block;font-family:var(--font-ui);font-weight:700;color:var(--ink-soft);font-size:.85rem;}
+
+  .hint{max-width:1000px;width:100%;margin:0 auto;color:var(--ink-soft);font-weight:600;font-size:.85rem;text-align:center;}
+
+  @media (max-width:520px){
+    .controls{width:100%;margin-left:0;}
+    .field{flex:1;}
+    select,.btn{width:100%;}
+    .btn.sound{max-width:60px;}
+    .legend{margin-left:0;width:100%;}
+  }
+  @media (prefers-reduced-motion:reduce){.inner{transition:none;}.card.matched,.win{animation:none;}}
+</style>
+</head>
+<body>
+  <header>
+    <h1><span>Verb Match</span><span class="dot">✦</span></h1>
+    <div class="controls">
+      <div class="field">
+        <label for="cat">Verb set</label>
+        <select id="cat" aria-label="Choose a verb set"></select>
+      </div>
+      <div class="field">
+        <label for="pairs">Pairs</label>
+        <select id="pairs" aria-label="Choose number of pairs">
+          <option value="4">4 (easy)</option>
+          <option value="6" selected>6</option>
+          <option value="8">8</option>
+          <option value="10">10</option>
+          <option value="12">12 (big)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <button class="btn" id="newgame">New game</button>
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <button class="btn sound" id="sound" aria-label="Toggle sound" title="Sound on/off">🔊</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="scorebar">
+    <span>Matches <b id="matches">0</b></span>
+    <span>Tries <b id="tries">0</b></span>
+    <span class="legend"><span class="p">Present</span><span class="q">Past</span></span>
+  </div>
+
+  <div class="win" id="win">
+    <span class="emoji">🎉</span>
+    <span class="txt">Great job!<small id="winsub"></small></span>
+    <button class="btn" id="again" style="margin-left:auto;">Play again</button>
+  </div>
+
+  <div class="board-wrap">
+    <div class="grid" id="grid" aria-label="Verb tense memory game board"></div>
+  </div>
+
+  <p class="hint">Match each present-tense verb with its past tense. Tap a matched card to hear it again.</p>
+
+<script>
+// [present, past, "regular" | "irregular"]
+const DECKS = {
+  "Everyday verbs":[
+    ["go","went","irregular"],["eat","ate","irregular"],["run","ran","irregular"],["see","saw","irregular"],
+    ["come","came","irregular"],["take","took","irregular"],["make","made","irregular"],["give","gave","irregular"]
+  ],
+  "Common verbs":[
+    ["get","got","irregular"],["say","said","irregular"],["know","knew","irregular"],["think","thought","irregular"],
+    ["find","found","irregular"],["tell","told","irregular"],["feel","felt","irregular"],["leave","left","irregular"]
+  ],
+  "Action verbs":[
+    ["swim","swam","irregular"],["sing","sang","irregular"],["ride","rode","irregular"],["fly","flew","irregular"],
+    ["drive","drove","irregular"],["throw","threw","irregular"],["fall","fell","irregular"],["drink","drank","irregular"]
+  ],
+  "School day":[
+    ["teach","taught","irregular"],["understand","understood","irregular"],["write","wrote","irregular"],["ask","asked","regular"],
+    ["answer","answered","regular"],["learn","learned","regular"],["study","studied","regular"],["spell","spelled","regular"]
+  ],
+  "Regular verbs (-ed)":[
+    ["walk","walked","regular"],["play","played","regular"],["jump","jumped","regular"],["help","helped","regular"],
+    ["look","looked","regular"],["want","wanted","regular"],["need","needed","regular"],["talk","talked","regular"]
+  ],
+  "More irregular":[
+    ["buy","bought","irregular"],["bring","brought","irregular"],["catch","caught","irregular"],["build","built","irregular"],
+    ["send","sent","irregular"],["spend","spent","irregular"],["lose","lost","irregular"],["win","won","irregular"]
+  ],
+  "Challenge (12)":[
+    ["begin","began","irregular"],["break","broke","irregular"],["choose","chose","irregular"],["forget","forgot","irregular"],
+    ["grow","grew","irregular"],["hear","heard","irregular"],["hold","held","irregular"],["keep","kept","irregular"],
+    ["meet","met","irregular"],["pay","paid","irregular"],["sell","sold","irregular"],["wear","wore","irregular"]
+  ]
+};
+
+const grid=document.getElementById('grid');
+const catSel=document.getElementById('cat');
+const pairsSel=document.getElementById('pairs');
+const matchesEl=document.getElementById('matches');
+const triesEl=document.getElementById('tries');
+const winEl=document.getElementById('win');
+const winSub=document.getElementById('winsub');
+const soundBtn=document.getElementById('sound');
+
+let first=null, lock=false, matches=0, tries=0, totalPairs=0, soundOn=true;
+
+Object.keys(DECKS).forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=k;catSel.appendChild(o);});
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function speak(word){
+  if(!soundOn||!('speechSynthesis' in window))return;
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(word);u.lang='en-US';u.rate=.8;u.pitch=1;speechSynthesis.speak(u);}catch(e){}
+}
+
+function newGame(){
+  const deck=DECKS[catSel.value];
+  totalPairs=Math.min(parseInt(pairsSel.value,10),deck.length);
+  matches=0;tries=0;first=null;lock=false;
+  matchesEl.textContent=0;triesEl.textContent=0;
+  winEl.classList.remove('show');
+  grid.innerHTML='';
+
+  const chosen=shuffle([...deck]).slice(0,totalPairs);
+  let cards=[];
+  chosen.forEach(([present,past,kind],idx)=>{
+    cards.push({id:idx,role:'present',present,past,kind});
+    cards.push({id:idx,role:'past',present,past,kind});
+  });
+  shuffle(cards);
+  grid.style.gridTemplateColumns='repeat(4,1fr)';
+
+  cards.forEach(c=>{
+    const btn=document.createElement('button');
+    btn.className='card';
+    btn.setAttribute('aria-label','hidden card');
+    btn.dataset.id=c.id;btn.dataset.role=c.role;
+    btn.dataset.present=c.present;btn.dataset.past=c.past;btn.dataset.kind=c.kind;
+    const shown=c.role==='present'?c.present:c.past;
+    const label=c.role==='present'?'Present':'Past';
+    const front=`<div class="front ${c.role}">
+        <span class="tag">${label}</span>
+        <span class="word">${shown}</span>
+        <span class="pair">${c.present} → ${c.past}</span>
+        <span class="kind">${c.kind}</span>
+      </div>`;
+    btn.innerHTML=`<div class="inner"><div class="face back"></div>${front}</div>`;
+    btn.addEventListener('click',()=>flip(btn));
+    grid.appendChild(btn);
+  });
+}
+
+function flip(btn){
+  if(lock||btn.classList.contains('up')||btn.classList.contains('matched'))return;
+  btn.classList.add('up');
+  const shown=btn.dataset.role==='present'?btn.dataset.present:btn.dataset.past;
+  btn.setAttribute('aria-label',shown);
+  speak(shown);
+
+  if(!first){first=btn;return;}
+
+  tries++;triesEl.textContent=tries;
+  lock=true;
+  const isMatch=first.dataset.id===btn.dataset.id;
+
+  if(isMatch){
+    setTimeout(()=>{
+      [first,btn].forEach(c=>{c.classList.add('matched');c.classList.remove('up');});
+      btn.classList.add('speaking');
+      speak(btn.dataset.past);
+      setTimeout(()=>btn.classList.remove('speaking'),700);
+      matches++;matchesEl.textContent=matches;
+      first=null;lock=false;
+      if(matches===totalPairs)finish();
+    },350);
+  }else{
+    setTimeout(()=>{
+      [first,btn].forEach(c=>{c.classList.remove('up');c.setAttribute('aria-label','hidden card');});
+      first=null;lock=false;
+    },1000);
+  }
+}
+
+function finish(){winSub.textContent=`${totalPairs} verbs · ${tries} tries`;winEl.classList.add('show');}
+
+grid.addEventListener('click',e=>{
+  const card=e.target.closest('.card.matched');
+  if(card){
+    const shown=card.dataset.role==='present'?card.dataset.present:card.dataset.past;
+    speak(shown);card.classList.add('speaking');setTimeout(()=>card.classList.remove('speaking'),700);
+  }
+});
+
+soundBtn.addEventListener('click',()=>{
+  soundOn=!soundOn;soundBtn.textContent=soundOn?'🔊':'🔇';soundBtn.classList.toggle('off',!soundOn);
+  if(!soundOn&&'speechSynthesis' in window)speechSynthesis.cancel();
+});
+
+document.getElementById('newgame').addEventListener('click',newGame);
+document.getElementById('again').addEventListener('click',newGame);
+catSel.addEventListener('change',newGame);
+pairsSel.addEventListener('change',newGame);
+
+newGame();
+</script>
+</body>
+</html>
